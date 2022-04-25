@@ -34,24 +34,36 @@ public class Matrix {
         return data;
     }
 
-    public Matrix sum(Matrix o) {
-        if (this.getRows() != o.getRows()
-                || this.getColumns() != o.getColumns()) {
+    public static Matrix sum(Matrix a, Matrix b) {
+        if (a.getRows() != b.getRows()
+                || a.getColumns() != b.getColumns()) {
             throw new IllegalArgumentException("ERROR");
         }
+        int rows = a.getRows();
+        int columns = a.getColumns();
 
         int[][] data = new int[rows][columns];
         for (int i = 0; i < rows; i++) {
-            data[i] = this.table[i].clone();
-        }
-
-        for (int i = 0; i < rows; i++) {
             for (int j = 0; j < columns; j++) {
-                data[i][j] += o.getTable()[i][j];
+                data[i][j] = a.getTable()[i][j] + b.getTable()[i][j];
             }
         }
 
-        return new Matrix(this.rows, this.columns, data);
+        return new Matrix(rows, columns, data);
+    }
+
+    public static Matrix scalarMultiplication(Matrix matrix, int scalar) {
+        int rows = matrix.getRows();
+        int columns = matrix.getColumns();
+
+        int[][] data = new int[rows][columns];
+        for (int i = 0; i < rows; i++) {
+            for (int j = 0; j < columns; j++) {
+                data[i][j] = matrix.getTable()[i][j] * scalar;
+            }
+        }
+
+        return new Matrix(rows, columns, data);
     }
 
     @Override
