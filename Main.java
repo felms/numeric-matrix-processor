@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 public class Main {
@@ -11,10 +13,10 @@ public class Main {
         while(!exit) {
 
             System.out.print("\n1. Add matrices\n" +
-                                "2. Multiply matrix by a constant\n" +
-                                "3. Multiply matrices\n" +
-                                "0. Exit\n" +
-                                "Your choice: ");
+                    "2. Multiply matrix by a constant\n" +
+                    "3. Multiply matrices\n" +
+                    "0. Exit\n" +
+                    "Your choice: ");
             int choice = Integer.parseInt(scanner.nextLine());
 
             switch(choice) {
@@ -35,7 +37,7 @@ public class Main {
         }
 
         scanner.close();
-    
+
     }
 
     private static void addMatrices() {
@@ -45,39 +47,83 @@ public class Main {
         int n = scanner.nextInt();
         scanner.nextLine();
         System.out.println("Enter first matrix:");
-
-        int[][] table = new int[m][n];
-        for (int i = 0; i < m; i++) {
-            for (int j = 0; j < n; j++) {
-                table[i][j] = scanner.nextInt();
+        
+        if (scanner.hasNextInt()) {
+            List<List<Integer>> data = new ArrayList<>();
+            for (int i = 0; i < m; i++) {
+                List<Integer> r = new ArrayList<>();
+                for (int j = 0; j < n; j++) {
+                    r.add(scanner.nextInt());
+                }
+                data.add(r);
             }
-        }
-        scanner.nextLine();
+            scanner.nextLine();
 
-        Matrix matrix0 = new Matrix(m, n, table);
+            Matrix<Integer> matrix0 = new Matrix<>(m, n, data);
 
-        System.out.print("Enter size of second matrix: ");
-        m = scanner.nextInt();
-        n = scanner.nextInt();
-        scanner.nextLine();
-        System.out.println("Enter second matrix:");
+            System.out.print("Enter size of second matrix: ");
+            m = scanner.nextInt();
+            n = scanner.nextInt();
+            scanner.nextLine();
+            System.out.println("Enter second matrix:");
 
-        table = new int[m][n];
-        for (int i = 0; i < m; i++) {
-            for (int j = 0; j < n; j++) {
-                table[i][j] = scanner.nextInt();
+            data = new ArrayList<>();
+            for (int i = 0; i < m; i++) {
+                List<Integer> r = new ArrayList<>();
+                for (int j = 0; j < n; j++) {
+                    r.add(scanner.nextInt());
+                }
+                data.add(r);
             }
-        }
-        scanner.nextLine();
-        Matrix matrix1 = new Matrix(m, n, table);
+            scanner.nextLine();
+            Matrix<Integer> matrix1 = new Matrix<>(m, n, data);
 
-        try{
-            Matrix matrix = MatrixProcessor.sum(matrix0, matrix1);
-            System.out.println("The result is:");
-            System.out.println(matrix);
-        } catch (IllegalArgumentException iae) {
-            System.out.println(iae.getMessage());
-        }
+            try{
+                Matrix<Integer> matrix = MatrixProcessor.sum(matrix0, matrix1);
+                System.out.println("The result is:");
+                System.out.println(matrix);
+            } catch (IllegalArgumentException iae) {
+                System.out.println(iae.getMessage());
+            }
+        } else if (scanner.hasNextDouble()) {
+            List<List<Double>> data = new ArrayList<>();
+            for (int i = 0; i < m; i++) {
+                List<Double> r = new ArrayList<>();
+                for (int j = 0; j < n; j++) {
+                    r.add(scanner.nextDouble());
+                }
+                data.add(r);
+            }
+            scanner.nextLine();
+
+            Matrix<Double> matrix0 = new Matrix<>(m, n, data);
+
+            System.out.print("Enter size of second matrix: ");
+            m = scanner.nextInt();
+            n = scanner.nextInt();
+            scanner.nextLine();
+            System.out.println("Enter second matrix:");
+
+            data = new ArrayList<>();
+            for (int i = 0; i < m; i++) {
+                List<Double> r = new ArrayList<>();
+                for (int j = 0; j < n; j++) {
+                    r.add(scanner.nextDouble());
+                }
+                data.add(r);
+            }
+            scanner.nextLine();
+            Matrix<Double> matrix1 = new Matrix<>(m, n, data);
+
+            try{
+                Matrix<Double> matrix = MatrixProcessor.sum(matrix0, matrix1);
+                System.out.println("The result is:");
+                System.out.println(matrix);
+            } catch (IllegalArgumentException iae) {
+                System.out.println(iae.getMessage());
+            }
+        }        
+        
     }
 
     private static void multiplyByConstant() {
@@ -87,23 +133,50 @@ public class Main {
         int n = scanner.nextInt();
         scanner.nextLine();
         System.out.println("Enter matrix:");
-
-        int[][] table = new int[m][n];
-        for (int i = 0; i < m; i++) {
-            for (int j = 0; j < n; j++) {
-                table[i][j] = scanner.nextInt();
+        
+        if (scanner.hasNextInt()) {
+            List<List<Integer>> data = new ArrayList<>();
+            for (int i = 0; i < m; i++) {
+                List<Integer> r = new ArrayList<>();
+                for (int j = 0; j < n; j++) {
+                    r.add(scanner.nextInt());
+                }
+                data.add(r);
             }
+            scanner.nextLine();
+
+            Matrix<Integer> matrix0 = new Matrix<>(m, n, data);
+
+            System.out.println("Enter constant: ");
+            double scalar = scanner.nextDouble();
+            scanner.nextLine();
+
+            Matrix<Integer> matrix = MatrixProcessor.scalarMultiplication(matrix0, scalar);
+            System.out.println("The result is:");
+            System.out.println(matrix);
+        } else if (scanner.hasNextDouble()) {
+            List<List<Double>> data = new ArrayList<>();
+            for (int i = 0; i < m; i++) {
+                List<Double> r = new ArrayList<>();
+                for (int j = 0; j < n; j++) {
+                    r.add(scanner.nextDouble());
+                }
+                data.add(r);
+            }
+            scanner.nextLine();
+
+            Matrix<Double> matrix0 = new Matrix<>(m, n, data);
+
+            System.out.println("Enter constant: ");
+            double scalar = scanner.nextDouble();
+            scanner.nextLine();
+
+            Matrix<Double> matrix = MatrixProcessor.scalarMultiplication(matrix0, scalar);
+            System.out.println("The result is:");
+            System.out.println(matrix);
+            
         }
-        scanner.nextLine();
-        Matrix matrix0 = new Matrix(m, n, table);
-
-        System.out.println("Enter constant: ");
-        int scalar = scanner.nextInt();
-        scanner.nextLine();
-
-        Matrix matrix = MatrixProcessor.scalarMultiplication(matrix0, scalar);
-        System.out.println("The result is:");
-        System.out.println(matrix);
+        
     }
 
     private static void multiplyMatrices() {
@@ -114,36 +187,81 @@ public class Main {
         scanner.nextLine();
         System.out.println("Enter first matrix:");
 
-        int[][] table = new int[m][n];
-        for (int i = 0; i < m; i++) {
-            for (int j = 0; j < n; j++) {
-                table[i][j] = scanner.nextInt();
+        if (scanner.hasNextInt())  {
+            List<List<Integer>> data = new ArrayList<>();
+            for (int i = 0; i < m; i++) {
+                List<Integer> r = new ArrayList<>();
+                for (int j = 0; j < n; j++) {
+                    r.add(scanner.nextInt());
+                }
+                data.add(r);
             }
-        }
-        scanner.nextLine();
-        Matrix matrix0 = new Matrix(m, n, table);
+            scanner.nextLine();
 
-        System.out.print("Enter size of second matrix: ");
-        m = scanner.nextInt();
-        n = scanner.nextInt();
-        scanner.nextLine();
-        System.out.println("Enter second matrix:");
+            Matrix<Integer> matrix0 = new Matrix<>(m, n, data);
 
-        table = new int[m][n];
-        for (int i = 0; i < m; i++) {
-            for (int j = 0; j < n; j++) {
-                table[i][j] = scanner.nextInt();
+            System.out.print("Enter size of second matrix: ");
+            m = scanner.nextInt();
+            n = scanner.nextInt();
+            scanner.nextLine();
+            System.out.println("Enter second matrix:");
+
+            data = new ArrayList<>();
+            for (int i = 0; i < m; i++) {
+                List<Integer> r = new ArrayList<>();
+                for (int j = 0; j < n; j++) {
+                    r.add(scanner.nextInt());
+                }
+                data.add(r);
             }
-        }
-        scanner.nextLine();
-        Matrix matrix1 = new Matrix(m, n, table);
+            scanner.nextLine();
+            Matrix<Integer> matrix1 = new Matrix<>(m, n, data);
 
-        try{
-            Matrix matrix = MatrixProcessor.matrixMultiplication(matrix0, matrix1);
-            System.out.println("The result is:");
-            System.out.println(matrix);
-        } catch (IllegalArgumentException iae) {
-            System.out.println(iae.getMessage());
-        }
+            try{
+                Matrix<Integer> matrix = MatrixProcessor.matrixMultiplication(matrix0, matrix1);
+                System.out.println("The result is:");
+                System.out.println(matrix);
+            } catch (IllegalArgumentException iae) {
+                System.out.println(iae.getMessage());
+            }
+        } else if (scanner.hasNextDouble()) {
+            List<List<Double>> data = new ArrayList<>();
+            for (int i = 0; i < m; i++) {
+                List<Double> r = new ArrayList<>();
+                for (int j = 0; j < n; j++) {
+                    r.add(scanner.nextDouble());
+                }
+                data.add(r);
+            }
+            scanner.nextLine();
+
+            Matrix<Double> matrix0 = new Matrix<>(m, n, data);
+
+            System.out.print("Enter size of second matrix: ");
+            m = scanner.nextInt();
+            n = scanner.nextInt();
+            scanner.nextLine();
+            System.out.println("Enter second matrix:");
+
+            data = new ArrayList<>();
+            for (int i = 0; i < m; i++) {
+                List<Double> r = new ArrayList<>();
+                for (int j = 0; j < n; j++) {
+                    r.add(scanner.nextDouble());
+                }
+                data.add(r);
+            }
+            scanner.nextLine();
+            Matrix<Double> matrix1 = new Matrix<>(m, n, data);
+
+            try{
+                Matrix<Double> matrix = MatrixProcessor.matrixMultiplication(matrix0, matrix1);
+                System.out.println("The result is:");
+                System.out.println(matrix);
+            } catch (IllegalArgumentException iae) {
+                System.out.println(iae.getMessage());
+            }
+        }    
+        
     }
 }

@@ -1,19 +1,22 @@
-import java.util.Arrays;
+import java.util.ArrayList;
+import java.util.List;
 
-public class Matrix {
+public class Matrix<T>{
 
     private final int rows;
     private final int columns;
 
-    private final int[][] table;
+    private final List<List<T>> table;
 
-    public Matrix(int rows, int columns, int[][] table) {
+    public Matrix(int rows, int columns, List<List<T>> table) {
         this.rows = rows;
         this.columns = columns;
 
-        this.table = new int[rows][columns];
+        this.table = new ArrayList<>();
         for (int i = 0; i < rows; i++) {
-            this.table[i] = table[i].clone();
+            List<T> list = new ArrayList<>();
+            list.addAll(table.get(i));
+            this.table.add(list);
         }
 
     }
@@ -26,37 +29,41 @@ public class Matrix {
         return columns;
     }
 
-    public int[][] getTable() {
-        int[][] data = new int[this.rows][this.columns];
+    public List<List<T>> getTable() {
+        List<List<T>> data = new ArrayList<>();
         for (int i = 0; i < rows; i++) {
-            data[i] = this.table[i].clone();
+            List<T> list = new ArrayList<>();
+            list.addAll(this.table.get(i));
+            data.add(list);
         }
         return data;
     }
 
-    public int[] getRow(int rowNumber) {
+    public List<T> getRow(int rowNumber) {
         if (rowNumber > this.rows || rowNumber < 0) {
             throw new IllegalArgumentException("value invalid for 'rowNumber' -> " + rowNumber);
         }
 
-        int[] r = new int[this.columns];
+        List<T> r = new ArrayList<>();
+        List<T> list = this.table.get(rowNumber);
 
         for (int i = 0; i < this.columns; i++) {
-            r[i] = this.table[rowNumber][i];
+            r.add(list.get(i));
         }
 
         return r;
     }
 
-    public int[] getColumn(int columnNumber) {
+    public List<T> getColumn(int columnNumber) {
         if (columnNumber > this.columns || columnNumber < 0) {
             throw new IllegalArgumentException("value invalid for 'columnNumber' -> " + columnNumber);
         }
 
-        int[] c = new int[this.rows];
+        List<T> c = new ArrayList<>();
 
         for (int i = 0; i < this.rows; i++) {
-            c[i] = this.table[i][columnNumber];
+            List<T> list = this.table.get(i);
+            c.add(list.get(columnNumber));
         }
 
         return c;
@@ -66,8 +73,8 @@ public class Matrix {
     public String toString() {
         StringBuilder sb = new StringBuilder();
 
-        Arrays.stream(table).forEach(row -> {
-            Arrays.stream(row).forEach(item -> sb.append(item).append(" "));
+        this.table.forEach(row -> {
+            row.forEach(item -> sb.append(item).append(" "));
             sb.append("\n");
         });
         return sb.toString();
