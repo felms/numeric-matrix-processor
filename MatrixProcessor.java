@@ -3,7 +3,7 @@ public class MatrixProcessor {
     public static Matrix sum(Matrix a, Matrix b) {
         if (a.getRows() != b.getRows()
                 || a.getColumns() != b.getColumns()) {
-            throw new IllegalArgumentException("ERROR");
+            throw new IllegalArgumentException("The operation cannot be performed.");
         }
         int rows = a.getRows();
         int columns = a.getColumns();
@@ -34,7 +34,7 @@ public class MatrixProcessor {
     
     public static Matrix matrixMultiplication(Matrix a, Matrix b) {
          if (a.getColumns() != b.getRows()) {
-            throw new IllegalArgumentException("ERROR");
+            throw new IllegalArgumentException("The operation cannot be performed.");
          }
 
          int rows = a.getRows();
