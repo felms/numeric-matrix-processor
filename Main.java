@@ -12,14 +12,38 @@ public class Main {
             }
         }
 
-        Matrix matrix = new Matrix(m, n, table);
-        int scalar = scanner.nextInt();
+        Matrix matrix0 = new Matrix(m, n, table);
 
-        Matrix result = Matrix.scalarMultiplication(matrix, scalar);
+        m = scanner.nextInt();
+        n = scanner.nextInt();
+        table = new int[m][n];
+        for (int i = 0; i < m; i++) {
+            for (int j = 0; j < n; j++) {
+                table[i][j] = scanner.nextInt();
+            }
+        }
 
-        System.out.println(result);
+        Matrix matrix1 = new Matrix(m, n, table);
 
-        scanner.close();
+        System.out.println(MatrixProcessor.matrixMultiplication(matrix0, matrix1));
+
+        // int m = scanner.nextInt();
+        // int n = scanner.nextInt();
+        // int[][] table = new int[m][n];
+        // for (int i = 0; i < m; i++) {
+        //     for (int j = 0; j < n; j++) {
+        //         table[i][j] = scanner.nextInt();
+        //     }
+        // }
+
+        // Matrix matrix = new Matrix(m, n, table);
+        // int scalar = scanner.nextInt();
+
+        // Matrix result = Matrix.scalarMultiplication(matrix, scalar);
+
+        // System.out.println(result);
+
+        // scanner.close();
 //        Scanner scanner = new Scanner(System.in);
 //
 //        int m = scanner.nextInt();

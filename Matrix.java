@@ -34,36 +34,32 @@ public class Matrix {
         return data;
     }
 
-    public static Matrix sum(Matrix a, Matrix b) {
-        if (a.getRows() != b.getRows()
-                || a.getColumns() != b.getColumns()) {
-            throw new IllegalArgumentException("ERROR");
-        }
-        int rows = a.getRows();
-        int columns = a.getColumns();
-
-        int[][] data = new int[rows][columns];
-        for (int i = 0; i < rows; i++) {
-            for (int j = 0; j < columns; j++) {
-                data[i][j] = a.getTable()[i][j] + b.getTable()[i][j];
-            }
+    public int[] getRow(int rowNumber) {
+        if (rowNumber > this.rows || rowNumber < 0) {
+            throw new IllegalArgumentException("value invalid for 'rowNumber' -> " + rowNumber);
         }
 
-        return new Matrix(rows, columns, data);
+        int[] r = new int[this.columns];
+
+        for (int i = 0; i < this.columns; i++) {
+            r[i] = this.table[rowNumber][i];
+        }
+
+        return r;
     }
 
-    public static Matrix scalarMultiplication(Matrix matrix, int scalar) {
-        int rows = matrix.getRows();
-        int columns = matrix.getColumns();
-
-        int[][] data = new int[rows][columns];
-        for (int i = 0; i < rows; i++) {
-            for (int j = 0; j < columns; j++) {
-                data[i][j] = matrix.getTable()[i][j] * scalar;
-            }
+    public int[] getColumn(int columnNumber) {
+        if (columnNumber > this.columns || columnNumber < 0) {
+            throw new IllegalArgumentException("value invalid for 'columnNumber' -> " + columnNumber);
         }
 
-        return new Matrix(rows, columns, data);
+        int[] c = new int[this.rows];
+
+        for (int i = 0; i < this.rows; i++) {
+            c[i] = this.table[i][columnNumber];
+        }
+
+        return c;
     }
 
     @Override
