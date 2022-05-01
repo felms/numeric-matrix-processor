@@ -287,7 +287,7 @@ public class Main {
         scanner.nextLine();
 
 
-        Matrix matrix;
+        
         System.out.println("Enter matrix:");
         if (scanner.hasNextInt()) {
             List<List<Integer>> data = new ArrayList<>();
@@ -300,7 +300,8 @@ public class Main {
             }
             scanner.nextLine();
 
-            matrix = new Matrix<>(m, n, data);
+            Matrix<Integer> matrix = new Matrix<>(m, n, data);
+            executeTransposition(matrix, transposition);
 
         } else if (scanner.hasNextDouble()) {
             List<List<Double>> data = new ArrayList<>();
@@ -313,17 +314,21 @@ public class Main {
             }
             scanner.nextLine();
 
-            matrix = new Matrix<>(m, n, data);
+            Matrix<Double> matrix = new Matrix<>(m, n, data);
+            executeTransposition(matrix, transposition);
             
         }
+        
+    }
 
-        Matrix result;
+    private static <T> void executeTransposition(Matrix<T> matrix, int transposition) {
+        Matrix<T> matrix0 = new Matrix<>(matrix.getRows(), matrix.getColumns(), matrix.getTable());
         switch(transposition) {
             case 1:
-                //addMatrices();
+                matrix0 = MatrixProcessor.mdTransposition(matrix0);
                 break;
             case 2:
-                //multiplyByConstant();
+                matrix0 = MatrixProcessor.sdTransposition(matrix0);
                 break;
             case 3:
                 //multiplyMatrices();
@@ -334,7 +339,6 @@ public class Main {
         }
 
         System.out.println("The result is:");
-        System.out.println(result);
-        //Matrix matrix0 = MatrixProcessor.
+        System.out.println(matrix0);
     }
 }
