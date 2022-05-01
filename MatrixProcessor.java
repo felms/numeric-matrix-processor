@@ -4,6 +4,7 @@ import java.util.List;
 
 public class MatrixProcessor {
 
+    // Executa a soma de matrizes
     public static <T> Matrix<T> sum(Matrix<T> a, Matrix<T> b) {
         if (a.getRows() != b.getRows()
                 || a.getColumns() != b.getColumns()) {
@@ -29,6 +30,7 @@ public class MatrixProcessor {
         return new Matrix<T>(rows, columns, data);
     }
 
+    // Executa a multiplicação por um escalar
     public static <T> Matrix<T> scalarMultiplication(Matrix<T> matrix, double scalar) {
         int rows = matrix.getRows();
         int columns = matrix.getColumns();
@@ -47,6 +49,7 @@ public class MatrixProcessor {
         return new Matrix<T>(rows, columns, data);
     }
 
+    // Executa a multiplicação de matrizes
     public static <T> Matrix<T> matrixMultiplication(Matrix<T> a, Matrix<T> b) {
         if (a.getColumns() != b.getRows()) {
             throw new IllegalArgumentException("The operation cannot be performed.");
@@ -102,7 +105,7 @@ public class MatrixProcessor {
         return new Matrix<T>(rows, columns, data);
     }
 
-    // Transposição na diagonal principal
+    // Transposição na diagonal secundária
     public static <T> Matrix<T> sdTransposition(Matrix<T> matrix) {
         
         int rows = matrix.getRows();
@@ -169,6 +172,9 @@ public class MatrixProcessor {
 
         return new Matrix<T>(rows, columns, data);
     }
+
+
+    // Métodos auxiliares pra trabalhar com tipos genéricos --------------
 
     private static <T> T add(T x, T y){
 
