@@ -1,6 +1,7 @@
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+
 public class MatrixProcessor {
 
     public static <T> Matrix<T> sum(Matrix<T> a, Matrix<T> b) {
@@ -149,6 +150,21 @@ public class MatrixProcessor {
                 }
 
             }
+        }
+
+        return new Matrix<T>(rows, columns, data);
+    }
+
+    // Transposição na linha horizontal
+    public static <T> Matrix<T> hlTransposition(Matrix<T> matrix) {
+        
+        int rows = matrix.getRows();
+        int columns = matrix.getColumns();
+        List<List<T>> data = new ArrayList<>();
+
+        for (int i = rows - 1; i >= 0; i--) {
+            List<T> row = matrix.getRow(i);
+            data.add(row);
         }
 
         return new Matrix<T>(rows, columns, data);

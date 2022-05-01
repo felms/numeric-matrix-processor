@@ -331,10 +331,10 @@ public class Main {
                 matrix0 = MatrixProcessor.sdTransposition(matrix0);
                 break;
             case 3:
-            matrix0 = MatrixProcessor.vlTransposition(matrix0);
+                matrix0 = MatrixProcessor.vlTransposition(matrix0);
                 break;
             case 4:
-                //transposeMatrix();
+                matrix0 = MatrixProcessor.hlTransposition(matrix0);
                 break;
         }
 
