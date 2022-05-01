@@ -331,7 +331,7 @@ public class Main {
                 matrix0 = MatrixProcessor.sdTransposition(matrix0);
                 break;
             case 3:
-                //multiplyMatrices();
+            matrix0 = MatrixProcessor.vlTransposition(matrix0);
                 break;
             case 4:
                 //transposeMatrix();

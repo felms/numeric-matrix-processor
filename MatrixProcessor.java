@@ -128,6 +128,32 @@ public class MatrixProcessor {
         return new Matrix<T>(rows, columns, data);
     }
 
+    // Transposição na linha vertical
+    public static <T> Matrix<T> vlTransposition(Matrix<T> matrix) {
+        
+        int rows = matrix.getRows();
+        int columns = matrix.getColumns();
+        List<List<T>> data = new ArrayList<>();
+
+        for (int i = columns - 1; i >= 0; i--) {
+            List<T> column = matrix.getColumn(i);
+            for (int j = 0; j < column.size(); j++) {
+                if (i == columns - 1) {
+                    List<T> rTable = new ArrayList<>();
+                    rTable.add(column.get(j));
+                    data.add(rTable);                    
+                } else {
+                    List<T> rTable = data.get(j);
+                    rTable.add(column.get(j));
+                    data.set(j, rTable);
+                }
+
+            }
+        }
+
+        return new Matrix<T>(rows, columns, data);
+    }
+
     private static <T> T add(T x, T y){
 
         if (x == null || y == null) {
