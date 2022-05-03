@@ -195,7 +195,7 @@ public class MatrixProcessor {
         }
 
         // Caso recursivo: Qualquer outro tamanho
-        List<T> row0 = matrix.getRow(0); // A linha pode ser escolhida aleatóriamente mas eu fixei a linha 0 mesmo.
+        List<T> row0 = matrix.getRow(0);
         T det = getZero(row0.get(0));
         for (int j = 0; j < row0.size(); j++) {
             int signal = (int) Math.pow(-1, j);
@@ -210,8 +210,47 @@ public class MatrixProcessor {
         return det;
     }
 
+    public static <T> Matrix<Double> inverseMatrix(Matrix<T> matrix) {
+
+        // Eu posso estar recebendo uma matrix de inteiros aqui mas
+        // como a operação 1/determinante me retorna um double
+        // que será multipĺicado pela matrix eu estou convertendo a
+        // a matrix para matrix de doubles;
+        List<List<Double>> data = new ArrayList<>();
+        for (int i = 0; i < matrix.getRows(); i++) {
+            List<Double> r_i = new ArrayList<>();
+            for (int j = 0; j < matrix.getColumns(); j++) {
+                T item = matrix.getItem(i, j);
+                if (item instanceof Integer) {
+                    int itemInt = new Integer((Integer) item);
+                    r_i.add((double) itemInt);
+                } else if (item instanceof Double) {
+                    double itemDouble = new Double((Double) item);
+                    r_i.add(itemDouble);
+                }
+            }
+            data.add(r_i);
+        }
+        Matrix<Double> matrixDouble = new Matrix<>(matrix.getRows(), matrix.getColumns(), data);
+
+        // determinante
+        Double det = determinant(matrixDouble);
+        if (det == 0) {
+            throw new IllegalArgumentException("This matrix doesn't have an inverse.");
+        }
+
+        double oneOverDet = 1.0 / det; 
+
+        Matrix<Double> cof = cofactorMatrix(matrixDouble);
+        cof = mdTransposition(cof); // Matriz transposta da matrix dos cofatores;
+
+        Matrix<Double> result = scalarMultiplication(cof, oneOverDet);
+
+        return result;
+    }
+
     // Calcula a matriz dos cofatores da matrix recebida
-    public static <T> Matrix<T> cofactorMatrix(Matrix<T> matrix) {
+    private static <T> Matrix<T> cofactorMatrix(Matrix<T> matrix) {
 
         int rows = matrix.getRows();
         int columns = matrix.getColumns();

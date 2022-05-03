@@ -17,6 +17,7 @@ public class Main {
                     "3. Multiply matrices\n" +
                     "4. Transpose matrix\n" +
                     "5. Calculate a determinant\n" +
+                    "6. Inverse matrix\n" +
                     "0. Exit\n" +
                     "Your choice: ");
             int choice = Integer.parseInt(scanner.nextLine());
@@ -36,6 +37,9 @@ public class Main {
                     break;
                 case 5:
                     calculateDeterminant();
+                    break;
+                case 6:
+                    inverse();
                     break;
                 case 0:
                     exit = true;
@@ -348,6 +352,59 @@ public class Main {
             Double det = MatrixProcessor.determinant(matrix0);
             System.out.println("The result is:");
             System.out.println(det);
+
+        }
+    }
+
+    private static <T> void inverse() {
+
+        System.out.print("Enter matrix size: ");
+        int m = scanner.nextInt();
+        int n = scanner.nextInt();
+        scanner.nextLine();
+        System.out.println("Enter matrix:");
+
+        if (scanner.hasNextInt()) {
+            List<List<Integer>> data = new ArrayList<>();
+            for (int i = 0; i < m; i++) {
+                List<Integer> r = new ArrayList<>();
+                for (int j = 0; j < n; j++) {
+                    r.add(scanner.nextInt());
+                }
+                data.add(r);
+            }
+            scanner.nextLine();
+
+            Matrix<Integer> matrix0 = new Matrix<>(m, n, data);
+
+            try{
+                Matrix<Double> matrix = MatrixProcessor.inverseMatrix(matrix0);
+                System.out.println("The result is:");
+                System.out.println(matrix);
+            } catch (IllegalArgumentException iae) {
+                System.out.println(iae.getMessage());
+            }
+
+        } else if (scanner.hasNextDouble()) {
+            List<List<Double>> data = new ArrayList<>();
+            for (int i = 0; i < m; i++) {
+                List<Double> r = new ArrayList<>();
+                for (int j = 0; j < n; j++) {
+                    r.add(scanner.nextDouble());
+                }
+                data.add(r);
+            }
+            scanner.nextLine();
+
+            Matrix<Double> matrix0 = new Matrix<>(m, n, data);
+
+            try{
+                Matrix<Double> matrix = MatrixProcessor.inverseMatrix(matrix0);
+                System.out.println("The result is:");
+                System.out.println(matrix);
+            } catch (IllegalArgumentException iae) {
+                System.out.println(iae.getMessage());
+            }
 
         }
     }
