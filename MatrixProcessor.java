@@ -195,7 +195,7 @@ public class MatrixProcessor {
         }
 
         // Caso recursivo: Qualquer outro tamanho
-        List<T> row0 = matrix.getRow(0);
+        List<T> row0 = matrix.getRow(0); // A linha pode ser escolhida aleatóriamente mas eu fixei a linha 0 mesmo.
         T det = getZero(row0.get(0));
         for (int j = 0; j < row0.size(); j++) {
             int signal = (int) Math.pow(-1, j);
