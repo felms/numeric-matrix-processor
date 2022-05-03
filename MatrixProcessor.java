@@ -210,6 +210,29 @@ public class MatrixProcessor {
         return det;
     }
 
+    // Calcula a matriz dos cofatores da matrix recebida
+    public static <T> Matrix<T> cofactorMatrix(Matrix<T> matrix) {
+
+        int rows = matrix.getRows();
+        int columns = matrix.getColumns();
+        List<List<T>> data = new ArrayList<>();
+
+        for (int i = 0; i < rows; i++) {
+            List<T> r_i = matrix.getRow(i);
+            List<T> rC = new ArrayList<>();
+            for (int j = 0; j < columns; j++) {
+                int signal = (int) Math.pow(-1, i + j);
+                Matrix<T> m0 = getMatrixExcluding(i, j, matrix);
+                T det = determinant(m0);
+                det = multiplyByS(det, signal);
+                rC.add(det);
+            }
+            data.add(rC);
+        }
+
+        return new Matrix<>(rows, columns, data);
+    }
+
     // Retorna uma matriz excluindo a linha e a coluna informada
     private static <T> Matrix<T> getMatrixExcluding(int row, int column, Matrix<T> matrix) {
         List<List<T>> data = new ArrayList<>();
