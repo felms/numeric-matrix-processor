@@ -16,6 +16,7 @@ public class Main {
                     "2. Multiply matrix by a constant\n" +
                     "3. Multiply matrices\n" +
                     "4. Transpose matrix\n" +
+                    "5. Calculate a determinant\n" +
                     "0. Exit\n" +
                     "Your choice: ");
             int choice = Integer.parseInt(scanner.nextLine());
@@ -32,6 +33,9 @@ public class Main {
                     break;
                 case 4:
                     transposeMatrix();
+                    break;
+                case 5:
+                    calculateDeterminant();
                     break;
                 case 0:
                     exit = true;
@@ -51,7 +55,7 @@ public class Main {
         int n = scanner.nextInt();
         scanner.nextLine();
         System.out.println("Enter first matrix:");
-        
+
         if (scanner.hasNextInt()) {
             List<List<Integer>> data = new ArrayList<>();
             for (int i = 0; i < m; i++) {
@@ -126,8 +130,8 @@ public class Main {
             } catch (IllegalArgumentException iae) {
                 System.out.println(iae.getMessage());
             }
-        }        
-        
+        }
+
     }
 
     private static void multiplyByConstant() {
@@ -137,7 +141,7 @@ public class Main {
         int n = scanner.nextInt();
         scanner.nextLine();
         System.out.println("Enter matrix:");
-        
+
         if (scanner.hasNextInt()) {
             List<List<Integer>> data = new ArrayList<>();
             for (int i = 0; i < m; i++) {
@@ -178,9 +182,9 @@ public class Main {
             Matrix<Double> matrix = MatrixProcessor.scalarMultiplication(matrix0, scalar);
             System.out.println("The result is:");
             System.out.println(matrix);
-            
+
         }
-        
+
     }
 
     private static void multiplyMatrices() {
@@ -265,8 +269,8 @@ public class Main {
             } catch (IllegalArgumentException iae) {
                 System.out.println(iae.getMessage());
             }
-        }    
-        
+        }
+
     }
 
     private static void transposeMatrix() {
@@ -280,15 +284,38 @@ public class Main {
 
         int transposition = scanner.nextInt();
         scanner.nextLine();
-        
+
         System.out.print("Enter size of matrix: ");
         int m = scanner.nextInt();
         int n = scanner.nextInt();
         scanner.nextLine();
 
 
-        
+
         System.out.println("Enter matrix:");
+        List<List<Double>> data = new ArrayList<>();
+        for (int i = 0; i < m; i++) {
+            List<Double> r = new ArrayList<>();
+            for (int j = 0; j < n; j++) {
+                r.add(scanner.nextDouble());
+            }
+            data.add(r);
+        }
+        scanner.nextLine();
+
+        Matrix<Double> matrix = new Matrix<>(m, n, data);
+        executeTransposition(matrix, transposition);
+
+    }
+
+    private static <T> void calculateDeterminant() {
+
+        System.out.print("Enter matrix size: ");
+        int m = scanner.nextInt();
+        int n = scanner.nextInt();
+        scanner.nextLine();
+        System.out.println("Enter matrix:");
+
         if (scanner.hasNextInt()) {
             List<List<Integer>> data = new ArrayList<>();
             for (int i = 0; i < m; i++) {
@@ -300,9 +327,11 @@ public class Main {
             }
             scanner.nextLine();
 
-            Matrix<Integer> matrix = new Matrix<>(m, n, data);
-            executeTransposition(matrix, transposition);
+            Matrix<Integer> matrix0 = new Matrix<>(m, n, data);
 
+            Integer det = MatrixProcessor.determinant(matrix0);
+            System.out.println("The result is:");
+            System.out.println(det);
         } else if (scanner.hasNextDouble()) {
             List<List<Double>> data = new ArrayList<>();
             for (int i = 0; i < m; i++) {
@@ -314,11 +343,13 @@ public class Main {
             }
             scanner.nextLine();
 
-            Matrix<Double> matrix = new Matrix<>(m, n, data);
-            executeTransposition(matrix, transposition);
-            
+            Matrix<Double> matrix0 = new Matrix<>(m, n, data);
+
+            Double det = MatrixProcessor.determinant(matrix0);
+            System.out.println("The result is:");
+            System.out.println(det);
+
         }
-        
     }
 
     private static <T> void executeTransposition(Matrix<T> matrix, int transposition) {

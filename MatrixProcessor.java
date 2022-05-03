@@ -4,8 +4,7 @@ import java.util.List;
 
 public class MatrixProcessor {
 
-    // Executa a soma de matrizes
-    public static <T> Matrix<T> sum(Matrix<T> a, Matrix<T> b) {
+    public static <T extends Number> Matrix<T> sum(Matrix<T> a, Matrix<T> b) {
         if (a.getRows() != b.getRows()
                 || a.getColumns() != b.getColumns()) {
             throw new IllegalArgumentException("The operation cannot be performed.");
@@ -30,7 +29,6 @@ public class MatrixProcessor {
         return new Matrix<T>(rows, columns, data);
     }
 
-    // Executa a multiplicação por um escalar
     public static <T> Matrix<T> scalarMultiplication(Matrix<T> matrix, double scalar) {
         int rows = matrix.getRows();
         int columns = matrix.getColumns();
@@ -49,7 +47,6 @@ public class MatrixProcessor {
         return new Matrix<T>(rows, columns, data);
     }
 
-    // Executa a multiplicação de matrizes
     public static <T> Matrix<T> matrixMultiplication(Matrix<T> a, Matrix<T> b) {
         if (a.getColumns() != b.getRows()) {
             throw new IllegalArgumentException("The operation cannot be performed.");
@@ -81,7 +78,7 @@ public class MatrixProcessor {
 
     // Transposição na diagonal principal
     public static <T> Matrix<T> mdTransposition(Matrix<T> matrix) {
-        
+
         int rows = matrix.getRows();
         int columns = matrix.getColumns();
         List<List<T>> data = new ArrayList<>();
@@ -92,7 +89,7 @@ public class MatrixProcessor {
                 if (i == 0) {
                     List<T> rTable = new ArrayList<>();
                     rTable.add(row.get(j));
-                    data.add(rTable);                    
+                    data.add(rTable);
                 } else {
                     List<T> rTable = data.get(j);
                     rTable.add(row.get(j));
@@ -105,9 +102,9 @@ public class MatrixProcessor {
         return new Matrix<T>(rows, columns, data);
     }
 
-    // Transposição na diagonal secundária
+    // Transposição na diagonal principal
     public static <T> Matrix<T> sdTransposition(Matrix<T> matrix) {
-        
+
         int rows = matrix.getRows();
         int columns = matrix.getColumns();
         List<List<T>> data = new ArrayList<>();
@@ -119,7 +116,7 @@ public class MatrixProcessor {
                 if (i == rows - 1) {
                     List<T> rTable = new ArrayList<>();
                     rTable.add(row.get(j));
-                    data.add(rTable);                    
+                    data.add(rTable);
                 } else {
                     List<T> rTable = data.get(j);
                     rTable.add(row.get(j));
@@ -134,7 +131,7 @@ public class MatrixProcessor {
 
     // Transposição na linha vertical
     public static <T> Matrix<T> vlTransposition(Matrix<T> matrix) {
-        
+
         int rows = matrix.getRows();
         int columns = matrix.getColumns();
         List<List<T>> data = new ArrayList<>();
@@ -145,7 +142,7 @@ public class MatrixProcessor {
                 if (i == columns - 1) {
                     List<T> rTable = new ArrayList<>();
                     rTable.add(column.get(j));
-                    data.add(rTable);                    
+                    data.add(rTable);
                 } else {
                     List<T> rTable = data.get(j);
                     rTable.add(column.get(j));
@@ -160,7 +157,7 @@ public class MatrixProcessor {
 
     // Transposição na linha horizontal
     public static <T> Matrix<T> hlTransposition(Matrix<T> matrix) {
-        
+
         int rows = matrix.getRows();
         int columns = matrix.getColumns();
         List<List<T>> data = new ArrayList<>();
@@ -173,8 +170,64 @@ public class MatrixProcessor {
         return new Matrix<T>(rows, columns, data);
     }
 
+    // Determinante
+    public static <T> T determinant(Matrix<T> matrix) {
+        if (matrix.getRows() != matrix.getColumns()) {
+            throw new IllegalArgumentException(
+                    "The determinant can be computed only from the elements of a square matrix.");
+        }
 
-    // Métodos auxiliares pra trabalhar com tipos genéricos --------------
+        // Se for uma matrix 1 x 1
+        if (matrix.getRows() == 1) {
+            return matrix.getItem(0, 0);
+        }
+
+        // Caso base: uma matrix 2 x 2
+        if (matrix.getRows() == 2) {
+            T a00 = matrix.getItem(0, 0);
+            T a11 = matrix.getItem(1, 1);
+            T a10 = matrix.getItem(1, 0);
+            T a01 = matrix.getItem(0, 1);
+            T mD = multiply(a00, a11);
+            T sD = multiply(a10, a01);
+            sD = multiplyByS(sD, -1);
+            return add(mD, sD);
+        }
+
+        // Caso recursivo: Qualquer outro tamanho
+        List<T> row0 = matrix.getRow(0);
+        T det = getZero(row0.get(0));
+        for (int j = 0; j < row0.size(); j++) {
+            int signal = (int) Math.pow(-1, j);
+            Matrix<T> minor = getMatrixExcluding(0, j, matrix);
+            T item = row0.get(j);
+            T detMinor = determinant(minor);
+            detMinor = multiplyByS(detMinor, signal);
+            item = multiply(item, detMinor);
+            det = add(det, item);
+        }
+
+        return det;
+    }
+
+    // Retorna uma matriz excluindo a linha e a coluna informada
+    private static <T> Matrix<T> getMatrixExcluding(int row, int column, Matrix<T> matrix) {
+        List<List<T>> data = new ArrayList<>();
+        for (int i = 0; i < matrix.getRows(); i++) {
+            if (i != row) {
+                List<T> r0 = new ArrayList<>();
+                for (int j = 0; j < matrix.getColumns(); j++) {
+                    if (j != column) {
+                        T item = matrix.getItem(i, j);
+                        r0.add(item);
+                    }
+                }
+                data.add(r0);
+            }
+        }
+
+        return new Matrix<>(matrix.getRows() - 1, matrix.getColumns() - 1,  data);
+    }
 
     private static <T> T add(T x, T y){
 

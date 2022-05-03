@@ -39,6 +39,19 @@ public class Matrix<T>{
         return data;
     }
 
+    public T getItem(int row, int column) {
+        if (row < 0 || row > this.rows
+                || column < 0 || column > this.columns) {
+            throw new IllegalArgumentException(String.format("value invalid for row or column:" +
+                    "\nrows go from 0 - %d \n columns go from 0 - %s", this.rows, this.columns));
+        }
+
+        List<T> r = this.table.get(row);
+        T item = r.get(column);
+
+        return item;
+    }
+
     public List<T> getRow(int rowNumber) {
         if (rowNumber > this.rows || rowNumber < 0) {
             throw new IllegalArgumentException("value invalid for 'rowNumber' -> " + rowNumber);
